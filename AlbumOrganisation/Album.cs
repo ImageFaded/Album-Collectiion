@@ -9,6 +9,6 @@ namespace AlbumOrganisation
     class Album
     {
         string albumTitle = "";
-        List<string> songs = new List<string>;
+        List<string> songs = new List<string>();
     }
 }
