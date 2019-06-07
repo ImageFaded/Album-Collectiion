@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace AlbumOrganisation
 {
-    class Album
+    public class Album
     {
         string albumTitle = "";
-        List<string> songs = new List<string>();
+        string artist = "";
+        string genre = "";
     }
 }
