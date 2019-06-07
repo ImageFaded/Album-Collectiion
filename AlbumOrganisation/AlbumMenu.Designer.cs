@@ -30,13 +30,14 @@
         {
             this.SuspendLayout();
             // 
-            // Form1
+            // AlbumMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 262);
-            this.Name = "Form1";
+            this.Name = "AlbumMenu";
             this.Text = "Album Menu";
+            this.Load += new System.EventHandler(this.AlbumMenu_Load);
             this.ResumeLayout(false);
 
         }

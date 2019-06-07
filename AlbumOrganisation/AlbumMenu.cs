@@ -15,6 +15,19 @@ namespace AlbumOrganisation
         public AlbumMenu()
         {
             InitializeComponent();
+            Settings();
+        }
+
+        private void Settings()
+        {
+            Size = new Size(600, 600);
+            MinimizeBox = false;
+            FormBorderStyle = FormBorderStyle.FixedDialog;
+        }
+
+        private void AlbumMenu_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
