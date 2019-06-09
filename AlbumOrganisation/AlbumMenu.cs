@@ -105,20 +105,23 @@ namespace AlbumOrganisation
 
         private void ButtonClick(object sender, EventArgs e, Button buttonClicked)
         {
-            //MessageBox.Show(buttonClicked.Tag.ToString());
             switch (buttonClicked.Tag.ToString())
             {
                 //Search Artissts
                 case "Button0":
+                    AlbumSorting.SearchArtistAccess();
                     break;
                 //Search Albums
                 case "Button1":
+                    AlbumSorting.SearchAlbumAccess();
                     break;
                 //Add Album
                 case "Button2":
+                    AlbumSorting.AddAccess();
                     break;
                 //Remove Album
                 case "Button3":
+                    AlbumSorting.RemoveAccess();
                     break;
                 default:
                     MessageBox.Show("Functionality Not Found!");
