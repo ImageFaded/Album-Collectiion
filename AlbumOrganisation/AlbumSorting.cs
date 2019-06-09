@@ -3,29 +3,50 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace AlbumOrganisation
 {
-    class AlbumSorting
-    {
-        private void SearchArtist()
+    static class AlbumSorting
+    {       
+        static public void SearchArtistAccess()
         {
-
+            SearchArtist();
         }
 
-        private void SearchAlbum()
+        static private void SearchArtist()
         {
-
+            MessageBox.Show("Search Artist");
         }
 
-        private void AddArtist()
+        static public void SearchAlbumAccess()
         {
-
+            SearchAlbum();
         }
 
-        private void RemoveArtist()
+        static private void SearchAlbum()
         {
+            MessageBox.Show("Search Album");
+        }
 
+        static public void AddAccess()
+        {
+            AddAlbum();
+        }
+
+        static private void AddAlbum()
+        {
+            MessageBox.Show("Add Album");
+        }
+
+        static public void RemoveAccess()
+        {
+            RemoveAlbum();
+        }
+
+        static private void RemoveAlbum()
+        {
+            MessageBox.Show("Remove Album");
         }
     }
 }
