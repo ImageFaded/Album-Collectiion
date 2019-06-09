@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,6 +19,7 @@ namespace AlbumOrganisation
     //Form to display information relating to albums/artists
     public partial class AlbumMenu : Form
     {
+        TextBox textList;
 
         //Initialises form for album 
         public AlbumMenu()
@@ -40,12 +42,13 @@ namespace AlbumOrganisation
         {
             LoadTextBox();
             LoadButtons();
+            LoadAllAlbums();
         }
 
         //Settings to load a textbox to the screen which shall display information
         private void LoadTextBox()
         {
-            TextBox textList = new TextBox();
+            textList = new TextBox();
             textList.SetBounds(280, 20, 300, 530);
             textList.ScrollBars = ScrollBars.Vertical;
             textList.BackColor = Color.White;
@@ -85,6 +88,18 @@ namespace AlbumOrganisation
                 buttonList[i].Tag = "Button"+i;
                 buttonList[i].Click += (sender, args) => ButtonClick(sender, args, buttonList[arrayIndex]);
                 Controls.Add(buttonList[i]);
+            }
+        }
+
+        private void LoadAllAlbums()
+        {
+            var pathToList = Path.Combine(Directory.GetCurrentDirectory(), "\\AlbumList.txt");
+            MessageBox.Show(pathToList);
+            if (!File.Exists(pathToList)){
+                File.Create(pathToList);
+            } else
+            {
+                textList.Text = File.ReadAllText(pathToList);
             }
         }
 

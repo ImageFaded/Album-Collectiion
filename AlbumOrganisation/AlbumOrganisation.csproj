@@ -53,6 +53,7 @@
     <Compile Include="AlbumMenu.Designer.cs">
       <DependentUpon>AlbumMenu.cs</DependentUpon>
     </Compile>
+    <Compile Include="AlbumSorting.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="AlbumMenu.resx">
