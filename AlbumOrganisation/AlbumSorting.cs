@@ -9,44 +9,48 @@ namespace AlbumOrganisation
 {
     static class AlbumSorting
     {       
-        static public void SearchArtistAccess()
+        static public string SearchArtistAccess(TextBox textList)
         {
-            SearchArtist();
+            return SearchArtist(textList);
         }
 
-        static private void SearchArtist()
+        static private string SearchArtist(TextBox textList)
         {
-            MessageBox.Show("Search Artist");
+            //MessageBox.Show("Search Artist");
+            return "Search Artist!\n";
         }
 
-        static public void SearchAlbumAccess()
+        static public string SearchAlbumAccess(TextBox textList)
         {
-            SearchAlbum();
+            return SearchAlbum(textList);
         }
 
-        static private void SearchAlbum()
+        static private string SearchAlbum(TextBox textList)
         {
-            MessageBox.Show("Search Album");
+            return "Search Album!\n";
+            //MessageBox.Show("Search Album");
         }
 
-        static public void AddAccess()
+        static public string AddAccess(TextBox textList)
         {
-            AddAlbum();
+            return AddAlbum(textList);
         }
 
-        static private void AddAlbum()
+        static private string AddAlbum(TextBox textList)
         {
-            MessageBox.Show("Add Album");
+            return "Add Album!\n";
+            //MessageBox.Show("Add Album");
         }
 
-        static public void RemoveAccess()
+        static public string RemoveAccess(TextBox textList)
         {
-            RemoveAlbum();
+            return RemoveAlbum(textList);
         }
 
-        static private void RemoveAlbum()
+        static private string RemoveAlbum(TextBox textList)
         {
-            MessageBox.Show("Remove Album");
+            return "Remove Album!\n";
+            //MessageBox.Show("Remove Album");
         }
     }
 }
