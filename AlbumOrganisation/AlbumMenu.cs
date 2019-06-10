@@ -60,13 +60,14 @@ namespace AlbumOrganisation
         //Displays Buttons with labels onto the screen
         private void LoadButtons()
         {
+            //Create a list of buttons
             Button[] buttonList = new Button[5];
             int i = 0;
-            for (i = 0; i < buttonList.Length-1; i++)
+            for (i = 0; i < buttonList.Length; i++)
             {
                 int arrayIndex = i;
                 buttonList[i] = new Button();
-                buttonList[i].SetBounds(80, 60 * (i+2) + 20, 100, 40);
+                buttonList[i].SetBounds(80, 55 * (i+2) + 20, 100, 40);
                 switch (i)
                 {
                     case 0:
@@ -81,12 +82,15 @@ namespace AlbumOrganisation
                     case 3:
                         buttonList[i].Text = "Remove Album";
                         break;
+                    case 4:
+                        buttonList[i].Text = "Quit";
+                        break;
                     default:
                         buttonList[i].Text = "Button"+i;
                         break;
                 }
                 buttonList[i].Tag = "Button"+i;
-                buttonList[i].Click += (sender, args) => ButtonClick(sender, args, buttonList[arrayIndex]);
+                buttonList[i].Click += (sender, args) => ButtonClick(sender, args, buttonList[arrayIndex], textList);
                 Controls.Add(buttonList[i]);
             }
         }
@@ -94,7 +98,7 @@ namespace AlbumOrganisation
         private void LoadAllAlbums()
         {
             var pathToList = Path.Combine(Directory.GetCurrentDirectory(), "\\AlbumList.txt");
-            MessageBox.Show(pathToList);
+            //MessageBox.Show(pathToList);
             if (!File.Exists(pathToList)){
                 File.Create(pathToList);
             } else
@@ -103,25 +107,25 @@ namespace AlbumOrganisation
             }
         }
 
-        private void ButtonClick(object sender, EventArgs e, Button buttonClicked)
+        private void ButtonClick(object sender, EventArgs e, Button buttonClicked, TextBox textList)
         {
             switch (buttonClicked.Tag.ToString())
             {
-                //Search Artissts
+                //Search Artists
                 case "Button0":
-                    AlbumSorting.SearchArtistAccess();
+                    textList.AppendText(AlbumSorting.SearchArtistAccess(textList));
                     break;
                 //Search Albums
                 case "Button1":
-                    AlbumSorting.SearchAlbumAccess();
+                    textList.AppendText(AlbumSorting.SearchAlbumAccess(textList));
                     break;
                 //Add Album
                 case "Button2":
-                    AlbumSorting.AddAccess();
+                    textList.AppendText(AlbumSorting.AddAccess(textList));
                     break;
                 //Remove Album
                 case "Button3":
-                    AlbumSorting.RemoveAccess();
+                    textList.AppendText(AlbumSorting.RemoveAccess(textList));
                     break;
                 default:
                     MessageBox.Show("Functionality Not Found!");
