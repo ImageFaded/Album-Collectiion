@@ -39,10 +39,10 @@ namespace AlbumOrganisation
 
         //Loads items that will dynamically be displayed onto the screen
         private void LoadItems()
-        {
+        {            
             LoadTextBox();
+            //LoadAllAlbums();
             LoadButtons();
-            LoadAllAlbums();
         }
 
         //Settings to load a textbox to the screen which shall display information
@@ -55,6 +55,7 @@ namespace AlbumOrganisation
             textList.ReadOnly = true;
             textList.Multiline = true;
             Controls.Add(textList);
+            LoadAlbumText();
         }
 
         //Displays Buttons with labels onto the screen
@@ -95,6 +96,7 @@ namespace AlbumOrganisation
             }
         }
 
+        //Loads albums onto screen upon program startup/Creates new text file if deleted
         private void LoadAllAlbums()
         {
             var pathToList = Path.Combine(Directory.GetCurrentDirectory(), "\\AlbumList.txt");
@@ -109,28 +111,71 @@ namespace AlbumOrganisation
 
         private void ButtonClick(object sender, EventArgs e, Button buttonClicked, TextBox textList)
         {
+            var pathToList = Path.Combine(Directory.GetCurrentDirectory(), "\\AlbumList.txt");
             switch (buttonClicked.Tag.ToString())
             {
                 //Search Artists
                 case "Button0":
                     textList.AppendText(AlbumSorting.SearchArtistAccess(textList));
+                    SaveAlbumText(AlbumSorting.SearchArtistAccess(textList));
                     break;
                 //Search Albums
                 case "Button1":
                     textList.AppendText(AlbumSorting.SearchAlbumAccess(textList));
+                    SaveAlbumText(AlbumSorting.SearchAlbumAccess(textList));
                     break;
                 //Add Album
                 case "Button2":
                     textList.AppendText(AlbumSorting.AddAccess(textList));
+                    SaveAlbumText(AlbumSorting.AddAccess(textList));
                     break;
                 //Remove Album
                 case "Button3":
                     textList.AppendText(AlbumSorting.RemoveAccess(textList));
+                    SaveAlbumText(AlbumSorting.RemoveAccess(textList));
+                    break;
+                case "Button4":
+                    Application.Exit();
                     break;
                 default:
                     MessageBox.Show("Functionality Not Found!");
                     break;
             }
+        }
+
+        private void LoadAlbumText()
+        {
+            var pathToList = Path.Combine(Directory.GetCurrentDirectory(), "\\AlbumList.txt");
+            try
+            {
+                using (StreamReader streamRead = new StreamReader(pathToList))
+                {
+                    string line = streamRead.ReadToEnd();
+                    textList.AppendText(line);
+                }
+            }
+            catch (FileNotFoundException)
+            {
+                if (!File.Exists(pathToList))
+                {
+                    File.Create(pathToList);
+                }
+                else
+                {
+                    textList.Text = File.ReadAllText(pathToList);
+                }
+            }
+        }
+
+        private void SaveAlbumText(string inputText)
+        {
+            var pathToList = Path.Combine(Directory.GetCurrentDirectory(), "\\AlbumList.txt");
+            //IOException Point
+            using (StreamWriter streamWrite = File.AppendText(pathToList))
+            {
+                streamWrite.WriteLine(inputText);
+            }
+
         }
 
         private void AlbumMenu_Load(object sender, EventArgs e)
