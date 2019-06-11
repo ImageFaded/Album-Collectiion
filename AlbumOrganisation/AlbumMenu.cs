@@ -19,6 +19,7 @@ namespace AlbumOrganisation
     //Form to display information relating to albums/artists
     public partial class AlbumMenu : Form
     {
+        //Textbox is used to list information to the user regarding the albums in their collection
         TextBox textList;
 
         //Initialises form for album 
@@ -39,14 +40,14 @@ namespace AlbumOrganisation
 
         //Loads items that will dynamically be displayed onto the screen
         private void LoadItems()
-        {            
-            LoadTextBox();
-            //LoadAllAlbums();
-            LoadButtons();
+        {
+            var pathToList = Path.Combine(Directory.GetCurrentDirectory(), "\\AlbumList.txt");
+            LoadTextBox(pathToList);
+            LoadButtons(pathToList);
         }
 
         //Settings to load a textbox to the screen which shall display information
-        private void LoadTextBox()
+        private void LoadTextBox(string pathToList)
         {
             textList = new TextBox();
             textList.SetBounds(280, 20, 300, 530);
@@ -55,99 +56,103 @@ namespace AlbumOrganisation
             textList.ReadOnly = true;
             textList.Multiline = true;
             Controls.Add(textList);
-            LoadAlbumText();
+            LoadAlbumText(pathToList);
         }
 
         //Displays Buttons with labels onto the screen
-        private void LoadButtons()
+        private void LoadButtons(string pathToList)
         {
-            //Create a list of buttons
+            //Create a list of buttons which contain main functionality of program
             Button[] buttonList = new Button[5];
-            int i = 0;
-            for (i = 0; i < buttonList.Length; i++)
+            int buttonPosition = 0;
+            for (buttonPosition = 0; buttonPosition < buttonList.Length; buttonPosition++)
             {
-                int arrayIndex = i;
-                buttonList[i] = new Button();
-                buttonList[i].SetBounds(80, 55 * (i+2) + 20, 100, 40);
-                switch (i)
+                int arrayIndex = buttonPosition;
+                buttonList[buttonPosition] = new Button();
+                buttonList[buttonPosition].SetBounds(80, 55 * (buttonPosition + 2) + 20, 100, 40);
+                switch (buttonPosition)
                 {
                     case 0:
-                        buttonList[i].Text = "Search Artist";
+                        buttonList[buttonPosition].Text = "Search Artist";
                         break;
                     case 1:
-                        buttonList[i].Text = "Search Album";
+                        buttonList[buttonPosition].Text = "Search Album";
                         break;
                     case 2:
-                        buttonList[i].Text = "Add Album";
+                        buttonList[buttonPosition].Text = "Add Album";
                         break;
                     case 3:
-                        buttonList[i].Text = "Remove Album";
+                        buttonList[buttonPosition].Text = "Remove Album";
                         break;
                     case 4:
-                        buttonList[i].Text = "Quit";
+                        buttonList[buttonPosition].Text = "Quit";
                         break;
                     default:
-                        buttonList[i].Text = "Button"+i;
+                        buttonList[buttonPosition].Text = "Button"+ buttonPosition;
                         break;
                 }
-                buttonList[i].Tag = "Button"+i;
-                buttonList[i].Click += (sender, args) => ButtonClick(sender, args, buttonList[arrayIndex], textList);
-                Controls.Add(buttonList[i]);
+                buttonList[buttonPosition].Tag = "Button"+ buttonPosition;
+                buttonList[buttonPosition].Click += (sender, args) => ButtonClick(sender, args, buttonList[arrayIndex], textList, pathToList);
+                Controls.Add(buttonList[buttonPosition]);
             }
         }
 
-        //Loads albums onto screen upon program startup/Creates new text file if deleted
-        private void LoadAllAlbums()
+        //Checks if the file where album information is stored exists
+        private bool FileExists(string pathToList)
         {
-            var pathToList = Path.Combine(Directory.GetCurrentDirectory(), "\\AlbumList.txt");
-            //MessageBox.Show(pathToList);
-            if (!File.Exists(pathToList)){
-                File.Create(pathToList);
-            } else
+            //If the album storage file doesnt exist, create a file
+            if (!File.Exists(pathToList))
             {
-                textList.Text = File.ReadAllText(pathToList);
+                return false;
+            }
+            else
+            {
+                return true;
             }
         }
 
-        private void ButtonClick(object sender, EventArgs e, Button buttonClicked, TextBox textList)
-        {
-            var pathToList = Path.Combine(Directory.GetCurrentDirectory(), "\\AlbumList.txt");
+        //A function occurs depending on the tag of the button clicked
+        private void ButtonClick(object sender, EventArgs e, Button buttonClicked, TextBox textList, string pathToList)
+        { 
             switch (buttonClicked.Tag.ToString())
             {
-                //Search Artists
+                //Searches For Artists
                 case "Button0":
                     textList.AppendText(AlbumSorting.SearchArtistAccess(textList));
-                    SaveAlbumText(AlbumSorting.SearchArtistAccess(textList));
+                    SaveAlbumText(AlbumSorting.SearchArtistAccess(textList), pathToList);
                     break;
-                //Search Albums
+                //Search For Albums
                 case "Button1":
                     textList.AppendText(AlbumSorting.SearchAlbumAccess(textList));
-                    SaveAlbumText(AlbumSorting.SearchAlbumAccess(textList));
+                    SaveAlbumText(AlbumSorting.SearchAlbumAccess(textList), pathToList);
                     break;
-                //Add Album
+                //Adds A New Album Into The Collection
                 case "Button2":
                     textList.AppendText(AlbumSorting.AddAccess(textList));
-                    SaveAlbumText(AlbumSorting.AddAccess(textList));
+                    SaveAlbumText(AlbumSorting.AddAccess(textList), pathToList);
                     break;
-                //Remove Album
+                //Remove An Album From The Collection
                 case "Button3":
                     textList.AppendText(AlbumSorting.RemoveAccess(textList));
-                    SaveAlbumText(AlbumSorting.RemoveAccess(textList));
+                    SaveAlbumText(AlbumSorting.RemoveAccess(textList), pathToList);
                     break;
+                //Exits Program
                 case "Button4":
                     Application.Exit();
                     break;
+                //If the tag of the button doesn't match the above, show user there is no functionality
                 default:
                     MessageBox.Show("Functionality Not Found!");
                     break;
             }
         }
 
-        private void LoadAlbumText()
+        //Loads the album text from within the stored file if it exists into the textbox on-screen
+        private void LoadAlbumText(string pathToList)
         {
-            var pathToList = Path.Combine(Directory.GetCurrentDirectory(), "\\AlbumList.txt");
             try
             {
+                //Open up a StreamReader to read through each line of the text file
                 using (StreamReader streamRead = new StreamReader(pathToList))
                 {
                     string line = streamRead.ReadToEnd();
@@ -156,26 +161,34 @@ namespace AlbumOrganisation
             }
             catch (FileNotFoundException)
             {
+                //If no file is found, create a new file and dispose of the stream               
                 if (!File.Exists(pathToList))
                 {
-                    File.Create(pathToList);
+                    //Disposing the stream is needed since without doing so this causes conflicts when text is being written to the file after being created
+                    File.Create(pathToList).Dispose();
                 }
                 else
                 {
+                    //Set the text within the file to be the text present within the textbox
                     textList.Text = File.ReadAllText(pathToList);
                 }
             }
         }
 
-        private void SaveAlbumText(string inputText)
+        //Save the text within the textbox to the file storing album information
+        private void SaveAlbumText(string inputText, string pathToList)
         {
-            var pathToList = Path.Combine(Directory.GetCurrentDirectory(), "\\AlbumList.txt");
-            //IOException Point
-            using (StreamWriter streamWrite = File.AppendText(pathToList))
+            //If the file storing album information exists
+            if (FileExists(pathToList))
             {
-                streamWrite.WriteLine(inputText);
+                //Write the information of the button clicked into the file
+                //True is used to indicate appending to a file instead of overwriting
+                using (StreamWriter streamWrite = new StreamWriter(pathToList, true))
+                {
+                    //Write line into album information file
+                    streamWrite.WriteLine(inputText);
+                }
             }
-
         }
 
         private void AlbumMenu_Load(object sender, EventArgs e)
