@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace AlbumOrganisation
 {
+    //Information relating what an album should hold
     public class Album
     {
         string albumTitle = "";

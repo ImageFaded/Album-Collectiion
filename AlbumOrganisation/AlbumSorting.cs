@@ -1,4 +1,9 @@
-﻿using System;
+﻿/*
+ * Main functionality of program held here, including actions such as searches/adding/removing albums from the collection
+ */ 
+
+//Including appropriate libraries
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,6 +12,7 @@ using System.Windows.Forms;
 
 namespace AlbumOrganisation
 {
+    //Functions such as Adding/Removing/Searching held here
     static class AlbumSorting
     {       
         static public string SearchArtistAccess(TextBox textList)
