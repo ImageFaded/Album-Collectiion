@@ -54,6 +54,12 @@
       <DependentUpon>AlbumMenu.cs</DependentUpon>
     </Compile>
     <Compile Include="AlbumSorting.cs" />
+    <Compile Include="Input.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Input.Designer.cs">
+      <DependentUpon>Input.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="AlbumMenu.resx">

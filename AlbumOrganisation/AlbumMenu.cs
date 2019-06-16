@@ -21,6 +21,8 @@ namespace AlbumOrganisation
     {
         //Textbox is used to list information to the user regarding the albums in their collection
         TextBox textList;
+        Input input;
+        public static bool formOpen = false;
 
         //Initialises form for album 
         public AlbumMenu()
@@ -113,28 +115,37 @@ namespace AlbumOrganisation
 
         //A function occurs depending on the tag of the button clicked
         private void ButtonClick(object sender, EventArgs e, Button buttonClicked, TextBox textList, string pathToList)
-        { 
+        {
+            var albumMenuStatus = this;
             switch (buttonClicked.Tag.ToString())
             {
                 //Searches For Artists
                 case "Button0":
                     textList.AppendText(AlbumSorting.SearchArtistAccess(textList));
                     SaveAlbumText(AlbumSorting.SearchArtistAccess(textList), pathToList);
+                    input = new Input(0,albumMenuStatus);
+                    input.Show();
                     break;
                 //Search For Albums
                 case "Button1":
                     textList.AppendText(AlbumSorting.SearchAlbumAccess(textList));
                     SaveAlbumText(AlbumSorting.SearchAlbumAccess(textList), pathToList);
+                    input = new Input(1, albumMenuStatus);
+                    input.Show();                  
                     break;
                 //Adds A New Album Into The Collection
                 case "Button2":
                     textList.AppendText(AlbumSorting.AddAccess(textList));
                     SaveAlbumText(AlbumSorting.AddAccess(textList), pathToList);
+                    input = new Input(2, albumMenuStatus);
+                    input.Show();
                     break;
                 //Remove An Album From The Collection
                 case "Button3":
                     textList.AppendText(AlbumSorting.RemoveAccess(textList));
                     SaveAlbumText(AlbumSorting.RemoveAccess(textList), pathToList);
+                    input = new Input(3, albumMenuStatus);
+                    input.Show();
                     break;
                 //Exits Program
                 case "Button4":
@@ -145,6 +156,7 @@ namespace AlbumOrganisation
                     MessageBox.Show("Functionality Not Found!");
                     break;
             }
+            this.Enabled = false;
         }
 
         //Loads the album text from within the stored file if it exists into the textbox on-screen
