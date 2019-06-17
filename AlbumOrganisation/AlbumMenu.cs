@@ -20,7 +20,7 @@ namespace AlbumOrganisation
     public partial class AlbumMenu : Form
     {
         //Textbox is used to list information to the user regarding the albums in their collection
-        TextBox textList;
+        static TextBox textList;
         Input input;
         public static bool formOpen = false;
 
@@ -100,7 +100,7 @@ namespace AlbumOrganisation
         }
 
         //Checks if the file where album information is stored exists
-        private bool FileExists(string pathToList)
+        static private bool FileExists(string pathToList)
         {
             //If the album storage file doesnt exist, create a file
             if (!File.Exists(pathToList))
@@ -123,28 +123,29 @@ namespace AlbumOrganisation
                 case "Button0":
                     textList.AppendText(AlbumSorting.SearchArtistAccess(textList));
                     SaveAlbumText(AlbumSorting.SearchArtistAccess(textList), pathToList);
-                    input = new Input(0,albumMenuStatus);
+                    input = new Input(0,albumMenuStatus,pathToList);
                     input.Show();
                     break;
                 //Search For Albums
                 case "Button1":
                     textList.AppendText(AlbumSorting.SearchAlbumAccess(textList));
                     SaveAlbumText(AlbumSorting.SearchAlbumAccess(textList), pathToList);
-                    input = new Input(1, albumMenuStatus);
+                    input = new Input(1, albumMenuStatus, pathToList);
                     input.Show();                  
                     break;
                 //Adds A New Album Into The Collection
                 case "Button2":
-                    textList.AppendText(AlbumSorting.AddAccess(textList));
-                    SaveAlbumText(AlbumSorting.AddAccess(textList), pathToList);
-                    input = new Input(2, albumMenuStatus);
+                    /*textList.AppendText(AlbumSorting.AddAccess(textList));
+                    SaveAlbumText(AlbumSorting.AddAccess(textList), pathToList);*/
+                    input = new Input(2, albumMenuStatus, pathToList);
+                    input.TopMost = true;
                     input.Show();
                     break;
                 //Remove An Album From The Collection
                 case "Button3":
                     textList.AppendText(AlbumSorting.RemoveAccess(textList));
                     SaveAlbumText(AlbumSorting.RemoveAccess(textList), pathToList);
-                    input = new Input(3, albumMenuStatus);
+                    input = new Input(3, albumMenuStatus, pathToList);
                     input.Show();
                     break;
                 //Exits Program
@@ -187,8 +188,14 @@ namespace AlbumOrganisation
             }
         }
 
+        static public void SaveTextAccess(string textBoxOne, string textBoxTwo, string pathToList)
+        {
+            textList.AppendText(textBoxOne + " - " + textBoxTwo + "\n");
+            SaveAlbumText(textBoxOne + " - " + textBoxTwo + "\n", pathToList);
+        }
+
         //Save the text within the textbox to the file storing album information
-        private void SaveAlbumText(string inputText, string pathToList)
+        static private void SaveAlbumText(string inputText, string pathToList)
         {
             //If the file storing album information exists
             if (FileExists(pathToList))
